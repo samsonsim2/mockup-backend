@@ -17,4 +17,7 @@ router.post("/share", mockupController.shareMockup);
 router.post("/shared", mockupController.getSharedMockup);
 router.post("/edit", mockupController.editMockup);
 router.post("/delete", mockupController.deleteMockup);
+router.post("/createAsset", mockupController.createAsset);
+router.post("/getAsset", mockupController.getAsset);
+router.post("/createReel", mockupController.createReel);
 module.exports = router;

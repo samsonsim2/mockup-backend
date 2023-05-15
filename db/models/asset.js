@@ -11,11 +11,23 @@ const initAsset= (sequelize) =>
         type: DataTypes.INTEGER
       },
       MockupId: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        references: {
+          model: "mockups", // actually refers to table name
+          key: "id",
+        }
       },
       imageUrl: {
         type: DataTypes.STRING
       },       
+      created_at: {
+        allowNull: false,
+        type: DataTypes.DATE
+      },
+      updated_at: {
+        allowNull: false,
+        type: DataTypes.DATE
+      }
        
     },
     {

@@ -11,7 +11,11 @@ const initFilter= (sequelize) =>
         type: DataTypes.INTEGER
       },
       MockupId: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        references: {
+          model: "mockups", // actually refers to table name
+          key: "id",
+        }
       },
       filterName: {
         type: DataTypes.STRING
@@ -22,6 +26,14 @@ const initFilter= (sequelize) =>
       creatorName: {
         type: DataTypes.STRING
       },  
+      created_at: {
+        allowNull: false,
+        type: DataTypes.DATE
+      },
+      updated_at: {
+        allowNull: false,
+        type: DataTypes.DATE
+      }
        
     },
     {
