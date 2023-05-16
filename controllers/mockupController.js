@@ -2,76 +2,12 @@ const db = require("../db/models/index");
 
 const {Mockup,Usermockup,User,Asset,Reel} =db;
  
-const getAllMockup = async (req, res) => {
-   const {userId} = req.body
-    
-try {
- //  create a mock up in mockup table
-  const mockup = await Mockup.findAll({ where: { createdBy: userId } });    
-  return res.json(mockup)
-  
-} catch (err) {
-  console.log(err)
-  return res.status(400).json({ error: true, msg: err });    
-} 
-
-
-}
-const createMockup = async (req, res) => {
-    const {userName,imageUrl,createdBy} = req.body
- try {
-   //  create a mock up in mockup table
-    const mockup = await Mockup.create({
-        
-            updated_at: new Date(),
-            created_at: new Date(),  
-            userName:userName,
-            imageUrl:imageUrl,
-            createdBy:createdBy
-            
-        
-      });
-      // attach it to the associated user 
-    //  const user_mockup = await Usermockup.create({
-        
-    //     updated_at: new Date(),
-    //     created_at: new Date(),  
-    //     UserId:userId,
-    //     MockupId:mockup.id,
-    
-    // });
-    
-
-      return res.json(mockup)
-    
- } catch (err) {
-    console.log(err)
-    return res.status(400).json({ error: true, msg: err });    
- } 
- 
-
- 
-}
-
-
-const shareMockup = async (req, res) => {
-  const {email,mockupId} = req.body
+//GET MOCKUPS------------------------------------
+const getMockups = async (req, res) => {
+  const { userId } = req.params;    
 try { 
-
-  const user = await User.findOne({ where: { email: email } })
-    
-   const user_mockup = await Usermockup.create({
-      
-      updated_at: new Date(),
-      created_at: new Date(),  
-      UserId:user.id,
-      MockupId:mockupId,
-  
-  });
-  
-
-    return res.json(user_mockup)
-  
+  const mockups = await Mockup.findAll({ where: { createdBy: userId } });    
+  return res.json(mockups)  
 } catch (err) {
   console.log(err)
   return res.status(400).json({ error: true, msg: err });    
@@ -79,26 +15,70 @@ try {
 }
 
 const getSharedMockup = async (req, res) => {
-  const {userId} = req.body
+  const { userId } = req.params;  
 try { 
-
-  const mockup = await Usermockup.findAll({include:Mockup},{ where: { UserId: userId }}); 
- 
- 
-
+  const mockup = await Usermockup.findAll(  { where: { UserId: userId },include:Mockup}); 
   return res.json(mockup)
-  
-
-    
-  
 } catch (err) {
   console.log(err)
   return res.status(400).json({ error: true, msg: err });    
 } 
-
-
-
 }
+//CREATE MOCKUPS------------------------------------
+const createMockup = async (req, res) => {
+    const {userName,imageUrl,createdBy} = req.body
+ try {  
+    const mockup = await Mockup.create({        
+            updated_at: new Date(),
+            created_at: new Date(),  
+            userName:userName,
+            imageUrl:imageUrl,
+            createdBy:createdBy      
+          });
+      return res.json(mockup)    
+ } catch (err) {
+    console.log(err)
+    return res.status(400).json({ error: true, msg: err });    
+ }  
+}
+
+//DELETE MOCKUPS ----------------------------------
+const deleteMockup = async (req, res) => {
+  const {mockupId} = req.params
+try { 
+// delete from shared tables first
+  const usermockup = await Usermockup.destroy({
+    where:{
+      MockupId:mockupId}});
+
+// then delete from mockup table . ask sam if theres a equivalent of cascade for m-m relationship
+  const mockup = await Mockup.destroy({
+  where:{
+   id:mockupId},});
+  res.json(mockup)
+} catch (err) {
+  console.log(err)
+  return res.status(400).json({ error: true, msg: err });    
+} 
+}
+//SHARE MOCKUPS------------------------------------
+const shareMockup = async (req, res) => {
+  const {email,mockupId} = req.body
+try { 
+   const user = await User.findOne({ where: { email: email } })    
+   const user_mockup = await Usermockup.create({      
+      updated_at: new Date(),
+      created_at: new Date(),  
+      UserId:user.id,
+      MockupId:mockupId,
+    });  
+    return res.json(user_mockup)  
+} catch (err) {
+  console.log(err)
+  return res.status(400).json({ error: true, msg: err });    
+} 
+}
+
 
 
 const editMockup = async (req, res) => {
@@ -117,29 +97,7 @@ try {
 } 
 }
 
-const deleteMockup = async (req, res) => {
-  const {mockupId} = req.body
-try { 
-// delete from shared tables first
-  const usermockup = await Usermockup.destroy({
-    where:{
-      MockupId:mockupId}});
 
-// then delete from mockup table . ask sam if theres a equivalent of cascade for m-m relationship
-  const mockup = await Mockup.destroy({
-  where:{
-   id:mockupId},});
-
-    
-  res.json(mockupId)
-} catch (err) {
-  console.log(err)
-  return res.status(400).json({ error: true, msg: err });    
-} 
-
-
-
-}
 
 const createAsset = async (req, res) => {
   const {mockupId,imageUrl} = req.body
@@ -203,7 +161,7 @@ try {
 
 module.exports = {
     createMockup,
-    getAllMockup,
+    getMockups,
     shareMockup,
     getSharedMockup,
     editMockup,
