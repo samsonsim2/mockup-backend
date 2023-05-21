@@ -1,6 +1,6 @@
 const db = require("../db/models/index");
 
-const {Mockup,Usermockup,User,Asset,Reel} =db;
+const {Mockup,Usermockup,User,Asset,Reel,Feed} =db;
  
 //GET MOCKUPS------------------------------------
 const getMockups = async (req, res) => {
@@ -40,6 +40,23 @@ const createMockup = async (req, res) => {
     console.log(err)
     return res.status(400).json({ error: true, msg: err });    
  }  
+}
+//EDIT MOCKUPS------------------------------------
+//for updateing the profile URL
+const editMockup = async (req, res) => {
+  const mockupId = req.params.mockupId
+  const {imageUrl,userName} = req.body
+  let mockupToEdit = await Mockup.findByPk(mockupId);
+  await mockupToEdit.update({imageUrl:imageUrl,userName:userName});
+  // await transactionToEdit.update(transactionToAdd);
+try {  
+    // const mockup = await Mockup.update({imageUrl})
+  
+    return res.json(mockupToEdit)    
+} catch (err) {
+  console.log(err)
+  return res.status(400).json({ error: true, msg: err });    
+}  
 }
 
 //DELETE MOCKUPS ----------------------------------
@@ -81,11 +98,11 @@ try {
 
 
 
-const editMockup = async (req, res) => {
-  const {mockupId} = req.body
+const getMockup = async (req, res) => {
+  const {mockupId} = req.params
 try { 
 
-  const mockup = await Mockup.findByPk(mockupId);
+  const mockup = await Mockup.findByPk(mockupId,{include: Feed},);
   return res.json(mockup)
   
 
@@ -162,6 +179,7 @@ try {
 module.exports = {
     createMockup,
     getMockups,
+    getMockup,
     shareMockup,
     getSharedMockup,
     editMockup,

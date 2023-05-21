@@ -6,7 +6,7 @@ const Sequelize = require('sequelize');
 const initUser = require('./user');
 const initUsermockup= require('./usermockup');
 const initMockup = require('./mockup');
-const initAd= require('./ad');
+const initFeed = require("./feed")
 const initAsset= require('./asset');
 const initReel= require('./reel');
 const initFilter= require('./filter');
@@ -50,7 +50,7 @@ db.User = initUser(sequelize)
 db.Mockup = initMockup(sequelize)
 db.Usermockup = initUsermockup(sequelize)
 db.Asset = initAsset(sequelize)
-db.Ad = initAd(sequelize)
+db.Feed = initFeed(sequelize)
 db.Reel = initReel(sequelize)
 db.Filter = initFilter(sequelize)
 
@@ -63,7 +63,7 @@ db.Usermockup.belongsTo(db.Mockup, {onDelete: "CASCADE"});
 
 // Mockup (Ad,Asset,Reel,Filter,) (1-M)
 db.Mockup.hasMany(db.Asset);
-db.Mockup.hasMany(db.Ad);
+db.Mockup.hasMany(db.Feed);
 db.Mockup.hasMany(db.Reel);
 db.Mockup.hasMany(db.Filter);
 

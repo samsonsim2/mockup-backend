@@ -1,8 +1,8 @@
 "use strict";
 const { DataTypes } = require("sequelize");
-const initAd= (sequelize) =>
+const initFeed= (sequelize) =>
   sequelize.define(
-    "Ad",
+    "Feed",
     {
       id: {
         allowNull: false,
@@ -39,4 +39,4 @@ const initAd= (sequelize) =>
   );
 
   
-module.exports = initAd;
+module.exports = initFeed;

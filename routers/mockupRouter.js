@@ -1,6 +1,7 @@
 
 const express = require('express')
 const mockupController = require("../controllers/mockupController");
+const feedController = require("../controllers/feedController");
 const { auth } = require('express-oauth2-jwt-bearer');
 const router = express.Router()
 
@@ -21,10 +22,25 @@ router.post("/create", mockupController.createMockup);
 router.delete("/:mockupId", mockupController.deleteMockup);
 //Share mockup
 router.post("/share", mockupController.shareMockup);
+//get mockup 
+router.get("/edit/:mockupId", mockupController.getMockup);
+//update mockup 
+router.patch("/edit/:mockupId", mockupController.editMockup);
 
-router.post("/edit", mockupController.editMockup);
-router.post("/delete", mockupController.deleteMockup);
+
+// create feed
+router.post("/feed", feedController.createFeed);
+//update feed 
+router.patch("/feed", feedController.updateFeed);
+
+
+//create asset
 router.post("/createAsset", mockupController.createAsset);
+//get asset
 router.post("/getAsset", mockupController.getAsset);
+
+
+
+
 router.post("/createReel", mockupController.createReel);
 module.exports = router;
