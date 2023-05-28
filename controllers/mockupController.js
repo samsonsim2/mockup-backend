@@ -1,6 +1,6 @@
 const db = require("../db/models/index");
 
-const {Mockup,Usermockup,User,Asset,Reel,Feed} =db;
+const {Mockup,Usermockup,User,Asset,Reel,Feed,Story,Filter} =db;
  
 //GET MOCKUPS------------------------------------
 const getMockups = async (req, res) => {
@@ -42,15 +42,16 @@ const createMockup = async (req, res) => {
  }  
 }
 //EDIT MOCKUPS------------------------------------
-//for updateing the profile URL
+
+
 const editMockup = async (req, res) => {
   const mockupId = req.params.mockupId
   const {imageUrl,userName} = req.body
   let mockupToEdit = await Mockup.findByPk(mockupId);
   await mockupToEdit.update({imageUrl:imageUrl,userName:userName});
-  // await transactionToEdit.update(transactionToAdd);
+   
 try {  
-    // const mockup = await Mockup.update({imageUrl})
+    
   
     return res.json(mockupToEdit)    
 } catch (err) {
@@ -67,8 +68,23 @@ try {
   const usermockup = await Usermockup.destroy({
     where:{
       MockupId:mockupId}});
-
-// then delete from mockup table . ask sam if theres a equivalent of cascade for m-m relationship
+// destroy associate feed 
+const feed = await Feed.destroy({
+  where:{
+    MockupId:mockupId}});
+    // destroy associate feed 
+const story = await Story.destroy({
+  where:{
+    MockupId:mockupId}});
+        // destroy associate filter 
+const filter = await Filter.destroy({
+  where:{
+    MockupId:mockupId}});
+    // destroy associate Reel 
+const reel = await Reel.destroy({
+  where:{
+    MockupId:mockupId}});
+// then delete from mockup table . 
   const mockup = await Mockup.destroy({
   where:{
    id:mockupId},});
@@ -97,17 +113,12 @@ try {
 }
 
 
-
+//Get single mockup
 const getMockup = async (req, res) => {
   const {mockupId} = req.params
 try { 
-
-  const mockup = await Mockup.findByPk(mockupId,{include: Feed},);
-  return res.json(mockup)
-  
-
-    
-  
+  const mockup = await Mockup.findByPk(mockupId,{include: [Feed,Story,Filter,Reel] } );
+  return res.json(mockup)  
 } catch (err) {
   console.log(err)
   return res.status(400).json({ error: true, msg: err });    
@@ -151,25 +162,13 @@ try {
   const asset = await Reel.create({
     updated_at: new Date(),
     created_at: new Date(),  
-    MockupId:mockupId,
-     
-     
-    
-
+    MockupId:mockupId,     
   });
-  
-   
-
-
-    
   res.json(mockupId)
 } catch (err) {
   console.log(err)
   return res.status(400).json({ error: true, msg: err });    
 } 
-
-
-
 }
 
 

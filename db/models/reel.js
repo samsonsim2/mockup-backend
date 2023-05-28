@@ -17,15 +17,12 @@ const initReel= (sequelize) =>
           key: "id",
         }
       },
-      userName: {
+      cta: {
         type: DataTypes.STRING
       },  
       caption: {
         type: DataTypes.STRING
-      },    
-      profileUrl: {
-        type: DataTypes.STRING
-      },      
+      },           
       created_at: {
         allowNull: false,
         type: DataTypes.DATE

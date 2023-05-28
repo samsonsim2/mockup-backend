@@ -1,8 +1,8 @@
 "use strict";
 const { DataTypes } = require("sequelize");
-const initFeed= (sequelize) =>
+const initStory= (sequelize) =>
   sequelize.define(
-    "Feed",
+    "Story",
     {
       id: {
         allowNull: false,
@@ -18,10 +18,13 @@ const initFeed= (sequelize) =>
         }
          
       },
-      cta: {
+      cta:{
+        type: DataTypes.STRING
+      },
+      location: {
         type: DataTypes.STRING
       },  
-      caption: {
+      tag: {
         type: DataTypes.STRING
       },    
       created_at: {
@@ -40,4 +43,4 @@ const initFeed= (sequelize) =>
   );
 
   
-module.exports = initFeed;
+module.exports = initStory;

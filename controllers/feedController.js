@@ -6,18 +6,19 @@ const {Mockup,Usermockup,User,Asset,Reel,Feed} =db;
  
 const createFeed = async (req, res) => {
   
-  const {mockupId,caption,cta} = req.body
+  const {mockupId} = req.body
 try {  
+
     const feed = await Feed.create({        
         updated_at: new Date(),
         created_at: new Date(),  
-        caption:caption,
-        cta:cta,
+        caption:"Learn more",
+        cta:"Lorem Ipsum Dolor",
         MockupId:mockupId,
               
       });
   
-  res.json(caption)
+  res.json("hi")
 } catch (err) {
   console.log(err)
   return res.status(400).json({ error: true, msg: err });    

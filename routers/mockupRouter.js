@@ -2,6 +2,9 @@
 const express = require('express')
 const mockupController = require("../controllers/mockupController");
 const feedController = require("../controllers/feedController");
+const storyController = require("../controllers/storyController");
+const filterController = require("../controllers/filterController");
+const reelController = require("../controllers/reelController");
 const { auth } = require('express-oauth2-jwt-bearer');
 const router = express.Router()
 
@@ -28,19 +31,35 @@ router.get("/edit/:mockupId", mockupController.getMockup);
 router.patch("/edit/:mockupId", mockupController.editMockup);
 
 
-// create feed
-router.post("/feed", feedController.createFeed);
-//update feed 
-router.patch("/feed", feedController.updateFeed);
-
-
 //create asset
 router.post("/createAsset", mockupController.createAsset);
 //get asset
 router.post("/getAsset", mockupController.getAsset);
 
 
+// create feed
+router.post("/feed", feedController.createFeed);
+//update feed 
+router.patch("/feed", feedController.updateFeed);
 
 
-router.post("/createReel", mockupController.createReel);
+//create story 
+router.post("/story", storyController.createStory);
+//update story 
+router.patch("/story", storyController.updateStory);
+
+
+//create Filter 
+router.post("/filter", filterController.createFilter);
+//update Filter
+router.patch("/filter", filterController.updateFilter);
+
+//create Reel
+router.post("/reel", reelController.createReel);
+//update Reel
+router.patch("/reel", reelController.updateReel);
+
+
+
+
 module.exports = router;
