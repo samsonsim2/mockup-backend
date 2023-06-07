@@ -35,14 +35,12 @@ const app = express();
 // app.use(checkJwt)
 // Enable CORS access to this server
 app.use(cors());
+ 
 
 // Enable reading JSON request bodies
-app.use(express.json());
-
-// enable and use router
-// app.use('/listings', listingsRouter)
+app.use(express.json()); 
 app.use("/auth", authRouter)
-app.use("/mockup", mockupRouter)
+app.use("/mockup",mockupRouter)
 app.listen(PORT, () => {
   console.log(`Express app listening on port ${PORT}!`);
 });

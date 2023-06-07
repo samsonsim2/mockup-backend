@@ -12,8 +12,8 @@ try {
     const feed = await Feed.create({        
         updated_at: new Date(),
         created_at: new Date(),  
-        caption:"Learn more",
-        cta:"Lorem Ipsum Dolor",
+        caption:"Lorem Ipsum Dolor",
+        cta:"Learn more",
         MockupId:mockupId,
               
       });

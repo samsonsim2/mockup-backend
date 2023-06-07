@@ -5,10 +5,11 @@ const feedController = require("../controllers/feedController");
 const storyController = require("../controllers/storyController");
 const filterController = require("../controllers/filterController");
 const reelController = require("../controllers/reelController");
+const assetController = require("../controllers/assetController");
 const { auth } = require('express-oauth2-jwt-bearer');
 const router = express.Router()
 
-const jwtCheck = auth({
+const checkJwt = auth({
     audience: 'https://mockup/api',
     issuerBaseURL: 'https://dev-ar0l70p2.us.auth0.com/',
     tokenSigningAlg: 'RS256'
@@ -16,9 +17,9 @@ const jwtCheck = auth({
 
 
 //get mockups created by the user 
-router.get("/:userId", mockupController.getMockups);
+router.get("/:userId",checkJwt,mockupController.getMockups);
 //get mockups shared with user
-router.get("/sharedmockups/:userId", mockupController.getSharedMockup);
+router.get("/sharedmockups/:userId",checkJwt, mockupController.getSharedMockup);
 //Create mockup
 router.post("/create", mockupController.createMockup);
 //Delete mockup
@@ -26,16 +27,18 @@ router.delete("/:mockupId", mockupController.deleteMockup);
 //Share mockup
 router.post("/share", mockupController.shareMockup);
 //get mockup 
-router.get("/edit/:mockupId", mockupController.getMockup);
+router.get("/edit/:mockupId",checkJwt, mockupController.getMockup);
 //update mockup 
 router.patch("/edit/:mockupId", mockupController.editMockup);
 
 
 //create asset
-router.post("/createAsset", mockupController.createAsset);
+router.post("/asset", assetController.createAsset);
 //get asset
-router.post("/getAsset", mockupController.getAsset);
-
+// router.post("/getAsset", mockupController.getAsset);
+router.get("/asset/:mockupId", assetController.getAsset);
+//update asset
+router.delete("/asset/:assetId", assetController.deleteAsset);
 
 // create feed
 router.post("/feed", feedController.createFeed);

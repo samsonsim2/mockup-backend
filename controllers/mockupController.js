@@ -68,22 +68,26 @@ try {
   const usermockup = await Usermockup.destroy({
     where:{
       MockupId:mockupId}});
-// destroy associate feed 
+// destroy associated feed 
 const feed = await Feed.destroy({
   where:{
     MockupId:mockupId}});
-    // destroy associate feed 
+    // destroy associated feed 
 const story = await Story.destroy({
   where:{
     MockupId:mockupId}});
-        // destroy associate filter 
+        // destroy associated filter 
 const filter = await Filter.destroy({
   where:{
     MockupId:mockupId}});
-    // destroy associate Reel 
+    // destroy associated Reel 
 const reel = await Reel.destroy({
   where:{
     MockupId:mockupId}});
+  //destroy associated Assets 
+  const asset = await Asset.destroy({where:{
+    MockupId:mockupId
+  }})
 // then delete from mockup table . 
   const mockup = await Mockup.destroy({
   where:{

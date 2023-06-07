@@ -13,8 +13,8 @@ try {
         updated_at: new Date(),
         created_at: new Date(),  
         cta:"stories cta",
-        location:"Locationss",
-        tag:"Add yoursss",
+        location:"Location",
+        tag:"Add tag",
         MockupId:mockupId,
               
       });
