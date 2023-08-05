@@ -39,6 +39,7 @@ app.use(cors());
 
 // Enable reading JSON request bodies
 app.use(express.json()); 
+ 
 app.use("/auth", authRouter)
 app.use("/mockup",mockupRouter)
 app.listen(PORT, () => {

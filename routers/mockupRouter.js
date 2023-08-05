@@ -17,9 +17,9 @@ const checkJwt = auth({
 
 
 //get mockups created by the user 
-router.get("/:userId",checkJwt,mockupController.getMockups);
+router.get("/:userId",mockupController.getMockups);
 //get mockups shared with user
-router.get("/sharedmockups/:userId",checkJwt, mockupController.getSharedMockup);
+router.get("/sharedmockups/:userId",mockupController.getSharedMockup);
 //Create mockup
 router.post("/create", mockupController.createMockup);
 //Delete mockup
@@ -27,7 +27,7 @@ router.delete("/:mockupId", mockupController.deleteMockup);
 //Share mockup
 router.post("/share", mockupController.shareMockup);
 //get mockup 
-router.get("/edit/:mockupId",checkJwt, mockupController.getMockup);
+router.get("/edit/:mockupId",mockupController.getMockup);
 //update mockup 
 router.patch("/edit/:mockupId", mockupController.editMockup);
 
